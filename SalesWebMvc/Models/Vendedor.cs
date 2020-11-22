@@ -8,8 +8,9 @@ namespace SalesWebMvc.Models
     public class Vendedor
     {
         public int Id { get; set; }
-        public int Nome { get; set; }
+        public string Nome { get; set; }
         public DateTime DataAniversario { get; set; }
+        public string E_mail { get; set; }
         public double SalarioBase { get; set; }
         public Departamento Departamento { get; set; }
         public ICollection<Venda> Vendas { get; set; }  = new List<Venda>();
@@ -19,10 +20,11 @@ namespace SalesWebMvc.Models
 
         }
 
-        public Vendedor(int id, int nome, DateTime dataAniversario, double salarioBase, Departamento departamento)
+        public Vendedor(int id, string nome, string e_mail, DateTime dataAniversario, double salarioBase, Departamento departamento)
         {
             Id = id;
             Nome = nome;
+            E_mail = e_mail;
             DataAniversario = dataAniversario;
             SalarioBase = salarioBase;
             Departamento = departamento;

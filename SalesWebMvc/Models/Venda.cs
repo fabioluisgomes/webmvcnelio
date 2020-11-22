@@ -20,11 +20,12 @@ namespace SalesWebMvc.Models
 
         }
 
-        public Venda(int id, DateTime date, SituacaoVenda status, Vendedor vendedor)
+        public Venda(int id, DateTime data, double montante, SituacaoVenda situacao, Vendedor vendedor)
         {
             Id = id;
-            Data = date;
-            Situacao = status;
+            Data = data;
+            Montante = montante;
+            Situacao = situacao;
             Vendedor = vendedor;
         }
     }
