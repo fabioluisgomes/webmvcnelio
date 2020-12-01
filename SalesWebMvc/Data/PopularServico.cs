@@ -22,10 +22,10 @@ namespace SalesWebMvc.Data
                 _context.Vendedor.Any() ||
                 _context.Venda.Any())
             {
-                return; // BD já foi populado.
+                return; // BD já foi populado. O return apenas é executado caso alguma tabela tenha informação.
             }
 
-
+            
             Departamento d1 = new Departamento(1, "Computers");
             Departamento d2 = new Departamento(2, "Electronics");
             Departamento d3 = new Departamento(3, "Fashion");
