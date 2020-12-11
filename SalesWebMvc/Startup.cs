@@ -42,6 +42,7 @@ namespace SalesWebMvc
 
             services.AddScoped<PopularServico>(); // aula 252
             services.AddScoped<ServicoVendedor>(); // aula 254
+            services.AddScoped<ServicoDepartamento>(); // aula 257
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

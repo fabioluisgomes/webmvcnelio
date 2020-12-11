@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SalesWebMvc.Models;
+using SalesWebMvc.Models.ViewModels;
 using SalesWebMvc.Services;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace SalesWebMvc.Controllers
     public class VendedoresController : Controller
     {
         private readonly ServicoVendedor _servicoVendedor;
+        private ServicoDepartamento _servicoDepartamento { get; set; }
 
         public VendedoresController(ServicoVendedor servicoVendedor) // aula 254
         {
@@ -25,7 +27,9 @@ namespace SalesWebMvc.Controllers
 
         public IActionResult Criar()
         {
-            return View();
+            var departamentos = _servicoDepartamento.BuscarTudo();
+            var viewModel = new VendedorFormViewModel {Departamentos = departamentos }; // aula 257
+            return View(viewModel);
         }
 
         [HttpPost]
