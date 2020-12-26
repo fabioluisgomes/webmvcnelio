@@ -5,6 +5,7 @@ using SalesWebMvc.Services;
 using SalesWebMvc.Services.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -49,14 +50,14 @@ namespace SalesWebMvc.Controllers
         {
             if (id == null)
             {
-                return NotFound(); // depois vou personalizar com uma página de erro.
+                return RedirectToAction(nameof(Erro), new {mensagem = "Id não fornecido"}); // depois vou personalizar com uma página de erro.
             }
 
             var vend = _servicoVendedor.BuscarPorId(id.Value); // como o parametro é opcional, tenho que pegar o value desse parâmetro.
 
             if(vend == null) // caso o vendedor não exista, então retorno uma página de erro.
             {
-                return NotFound();
+                return RedirectToAction(nameof(Erro), new {mensagem = "Vendedor não encontrado"});
             }
             // este método Apagar, não é a ação de apagar em si, ele trás uma tela perguntando se quero apagar o registro ou não.
             return View(vend); // se tudo der certo, então retorno uma view enviando vendedor (id) como argumento.
@@ -76,12 +77,12 @@ namespace SalesWebMvc.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Erro), new {mensagem = "Id não fornecido."});
             }
             var vend = _servicoVendedor.BuscarPorId(id.Value);
             if (vend == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Erro), new {mensagem = "Vendedor não encontrado."});
             }
             return View(vend);
         }
@@ -90,13 +91,13 @@ namespace SalesWebMvc.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Erro), new {mensagem = "Id não fornecido." });
             }
 
             var vend = _servicoVendedor.BuscarPorId(id.Value);
             if(vend == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Erro), new {mensagem = "Vendedor não encontrado."});
             }
 
             List<Departamento> departamentos = _servicoDepartamento.BuscarTudo();
@@ -110,21 +111,27 @@ namespace SalesWebMvc.Controllers
         {
             if (id != vendedor.Id)
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Erro), new { mensagem = "Id da URL não corresponde." }); ;
             }
             try
             {
                 _servicoVendedor.Atualizar(vendedor);
                 return RedirectToAction(nameof(Index));
             }
-            catch(NotFoundException)
+            catch(ApplicationException e)
             {
-                return NotFound();   
+                return RedirectToAction(nameof(Erro), new { mensagem = e.Message });
             }
-            catch(DbConcurrencyException)
+        }
+
+        public IActionResult Erro(string mensagem)
+        {
+            var viewModel = new ErrorViewModel
             {
-                return BadRequest();
-            }
+                Mensagem = mensagem,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier // macete pra pegar o id interno da requisição.
+            };
+            return View(viewModel);
         }
     }
 }
