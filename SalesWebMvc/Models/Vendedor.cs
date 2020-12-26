@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,10 +10,18 @@ namespace SalesWebMvc.Models
     {
         public int Id { get; set; }
         public string Nome { get; set; }
+        [Display(Name = "Aniversário")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DataAniversario { get; set; }
+        [Display(Name = "E-Mail")]
+        [DataType(DataType.EmailAddress)]
         public string E_mail { get; set; }
+        [Display(Name = "Salário Base")]
+        [DisplayFormat(DataFormatString = "{0:f2}")]
         public double SalarioBase { get; set; }
         public Departamento Departamento { get; set; }
+        [Display(Name = "ID Departamento")]
         public int DepartamentoId { get; set; }
         public ICollection<Venda> Vendas { get; set; }  = new List<Venda>();
 
