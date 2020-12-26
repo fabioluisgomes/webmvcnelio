@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SalesWebMvc.Data;
 using SalesWebMvc.Models;
+using SalesWebMvc.Services.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,23 @@ namespace SalesWebMvc.Services
             var vend = _context.Vendedor.Find(id); // comando linq para buscar o vendedor por id.
             _context.Vendedor.Remove(vend); // apenas rewmovi do Dbset.
             _context.SaveChanges(); // agora informo ao entity para remover do banco de dados.
+        }
+
+        public void Atualizar(Vendedor vend)
+        {
+            if(!_context.Vendedor.Any(x => x.Id == vend.Id ))
+            {
+                throw new NotFoundException("Vendedor não encontrado.");
+            }
+            try
+            {
+                _context.Update(vend);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                throw new DbConcurrencyException(e.Message);
+            }
         }
     }
 }
