@@ -18,6 +18,7 @@ namespace SalesWebMvc.Services
         public List<Departamento> BuscarTudo()
         {
             return _context.Departamento.OrderBy(x => x.Nome).ToList();
+            //return _context.Departamento.ToList();
         }
     }
 }

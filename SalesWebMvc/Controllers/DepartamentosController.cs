@@ -26,7 +26,7 @@ namespace SalesWebMvc.Controllers
         }
 
         // GET: Departamentos/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Detalhes(int? id)
         {
             if (id == null)
             {
@@ -43,18 +43,18 @@ namespace SalesWebMvc.Controllers
             return View(departamento);
         }
 
-        // GET: Departamentos/Create
-        public IActionResult Create()
+        // GET: Departamentos/Criar
+        public IActionResult Criar()
         {
             return View();
         }
 
-        // POST: Departamentos/Create
+        // POST: Departamentos/Criar
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome")] Departamento departamento)
+        public async Task<IActionResult> Criar([Bind("Id,Nome")] Departamento departamento)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +66,7 @@ namespace SalesWebMvc.Controllers
         }
 
         // GET: Departamentos/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Editar(int? id)
         {
             if (id == null)
             {
@@ -86,7 +86,7 @@ namespace SalesWebMvc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome")] Departamento departamento)
+        public async Task<IActionResult> Editar(int id, [Bind("Id,Nome")] Departamento departamento)
         {
             if (id != departamento.Id)
             {
@@ -116,8 +116,8 @@ namespace SalesWebMvc.Controllers
             return View(departamento);
         }
 
-        // GET: Departamentos/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: Departamentos/Apagar/5
+        public async Task<IActionResult> Apagar(int? id)
         {
             if (id == null)
             {
@@ -134,10 +134,10 @@ namespace SalesWebMvc.Controllers
             return View(departamento);
         }
 
-        // POST: Departamentos/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // POST: Departamentos/Apagar/5
+        [HttpPost, ActionName("Apagar")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> ApagarConfirmed(int id)
         {
             var departamento = await _context.Departamento.FindAsync(id);
             _context.Departamento.Remove(departamento);

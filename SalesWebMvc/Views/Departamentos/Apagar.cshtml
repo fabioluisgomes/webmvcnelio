@@ -1,12 +1,12 @@
 ﻿@model SalesWebMvc.Models.Departamento
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Apagar departamento selecionado?";
 }
 
-<h2>Delete</h2>
+<h2>@ViewData["Title"]</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Tem certeza que deseja apagar o registro selecionado?</h3>
 <div>
     <h4>Departamento</h4>
     <hr />
@@ -19,9 +19,9 @@
         </dd>
     </dl>
     
-    <form asp-action="Delete">
+    <form asp-action="Apagar">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Apagar" class="btn btn-default" /> |
+        <a asp-action="Index">Voltar</a>
     </form>
 </div>

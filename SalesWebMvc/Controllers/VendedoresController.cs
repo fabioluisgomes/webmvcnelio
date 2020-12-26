@@ -14,9 +14,10 @@ namespace SalesWebMvc.Controllers
         private readonly ServicoVendedor _servicoVendedor;
         private ServicoDepartamento _servicoDepartamento { get; set; }
 
-        public VendedoresController(ServicoVendedor servicoVendedor) // aula 254
+        public VendedoresController(ServicoVendedor servicoVendedor, ServicoDepartamento servicoDepartamento) // aula 254
         {
             _servicoVendedor = servicoVendedor;
+            _servicoDepartamento = servicoDepartamento;
         }
 
         public IActionResult Index() // aqui o index() é do tipo IActionResult que vai jogar para dentro da View a lista criada através do _servicoVendedor.ListarTudo().
@@ -28,7 +29,7 @@ namespace SalesWebMvc.Controllers
         public IActionResult Criar()
         {
             var departamentos = _servicoDepartamento.BuscarTudo();
-            var viewModel = new VendedorFormViewModel {Departamentos = departamentos }; // aula 257
+            var viewModel = new VendedorFormViewModel {Departamentos = departamentos}; // aula 257
             return View(viewModel);
         }
 
@@ -36,8 +37,52 @@ namespace SalesWebMvc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Criar(Vendedor vendedor)
         {
+            var departamentos = _servicoDepartamento.BuscarTudo();
+            var viewModel = new VendedorFormViewModel { Vendedor = vendedor, Departamentos = departamentos };
             _servicoVendedor.Inserir(vendedor);
             return RedirectToAction(nameof(Index));
+        }
+
+
+        public IActionResult Apagar(int? id) // retorna tela Apagar.cshtml com os dados do Vendedor que será apagado. O nome da ação apagar e a tela, devem ser iguais.
+        {
+            if (id == null)
+            {
+                return NotFound(); // depois vou personalizar com uma página de erro.
+            }
+
+            var vend = _servicoVendedor.BuscarPorId(id.Value); // como o parametro é opcional, tenho que pegar o value desse parâmetro.
+
+            if(vend == null) // caso o vendedor não exista, então retorno uma página de erro.
+            {
+                return NotFound();
+            }
+            // este método Apagar, não é a ação de apagar em si, ele trás uma tela perguntando se quero apagar o registro ou não.
+            return View(vend); // se tudo der certo, então retorno uma view enviando vendedor (id) como argumento.
+        }
+
+        [HttpPost, ActionName("Apagar")]
+        [ValidateAntiForgeryToken]
+        public IActionResult Apagar(int id)
+        {
+            _servicoVendedor.Remover(id);
+            return RedirectToAction(nameof(Index)); // redireciona para tela de index do vendedor.
+
+        }
+
+
+        public IActionResult Detalhes(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var vend = _servicoVendedor.BuscarPorId(id.Value);
+            if (vend == null)
+            {
+                return NotFound();
+            }
+            return View(vend);
         }
     }
 }

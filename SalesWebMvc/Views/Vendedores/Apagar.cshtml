@@ -1,0 +1,56 @@
+﻿<!--Esta tela se chama Apagar, porque existe uma ação com o nome Apagar lá no controller, que quando essa ação do controller for acionada, ela chamará
+    essa tela por ter o mesmo nome.-->
+
+@model SalesWebMvc.Models.Vendedor
+
+@{
+    ViewData["Title"] = "Apagar?";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<h3> Deseja apagar o registro selecionado?</h3>
+
+<div>
+    <h4>Vendedor</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.E_mail)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.E_mail)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DataAniversario)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DataAniversario)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SalarioBase)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SalarioBase)
+        </dd>
+    </dl>
+    <form asp-action="Apagar"> <!--Está ação Apagar é o Post, que faz a remoção do registro no banco de dados.-->
+        <input type="hidden" asp-for="Id" /> <!--Campo escondido, que é enviado junto com o formulário para a ação Apagar (Post) do controller. -->
+        <input type="submit" value="Apagar" class="btn btn-default" /> |
+        <a asp-action="Index">Voltar para Lista</a>
+    </form>
+
+</div>
+
