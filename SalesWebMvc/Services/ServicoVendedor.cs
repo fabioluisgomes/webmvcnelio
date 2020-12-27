@@ -36,9 +36,16 @@ namespace SalesWebMvc.Services
 
         public async Task RemoverAsync(int id)
         {
-            var vend = await _context.Vendedor.FindAsync(id); // comando linq para buscar o vendedor por id.
-            _context.Vendedor.Remove(vend); // apenas rewmovi do Dbset.
-            await _context.SaveChangesAsync(); // agora informo ao entity para remover do banco de dados.
+            try
+            {
+                var vend = await _context.Vendedor.FindAsync(id); // comando linq para buscar o vendedor por id.
+                _context.Vendedor.Remove(vend); // apenas rewmovi do Dbset.
+                await _context.SaveChangesAsync(); // agora informo ao entity para remover do banco de dados.
+            }
+            catch(DbUpdateException e)
+            {
+                throw new IntegrityException("Não foi possível remover o vendedor, ele possui vendas.");
+            }
         }
 
         public async Task AtualizarAsync(Vendedor vend)

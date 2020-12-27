@@ -74,8 +74,15 @@ namespace SalesWebMvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Apagar(int id)
         {
-            await _servicoVendedor.RemoverAsync(id);
-            return RedirectToAction(nameof(Index)); // redireciona para tela de index do vendedor.
+            try
+            {
+                await _servicoVendedor.RemoverAsync(id);
+                return RedirectToAction(nameof(Index)); // redireciona para tela de index do vendedor.
+            }
+            catch(IntegrityException e)
+            {
+                return RedirectToAction(nameof(Erro), new { mensagem = e.Message });
+            }
 
         }
 
