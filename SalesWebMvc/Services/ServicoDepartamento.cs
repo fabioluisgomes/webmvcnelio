@@ -3,6 +3,8 @@ using SalesWebMvc.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SalesWebMvc.Services
 {
@@ -15,9 +17,9 @@ namespace SalesWebMvc.Services
             _context = context;
         }
 
-        public List<Departamento> BuscarTudo()
+        public async Task<List<Departamento>> BuscarTudoAsync()
         {
-            return _context.Departamento.OrderBy(x => x.Nome).ToList();
+            return await _context.Departamento.OrderBy(x => x.Nome).ToListAsync();
             //return _context.Departamento.ToList();
         }
     }
