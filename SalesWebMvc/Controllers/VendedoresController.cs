@@ -39,6 +39,13 @@ namespace SalesWebMvc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Criar(Vendedor vendedor)
         {
+            if (!ModelState.IsValid)
+            {
+                var depart = _servicoDepartamento.BuscarTudo();
+                var viewModelDepar = new VendedorFormViewModel { Vendedor = vendedor, Departamentos = depart };
+                return View(viewModelDepar);
+            }
+
             var departamentos = _servicoDepartamento.BuscarTudo();
             var viewModel = new VendedorFormViewModel { Vendedor = vendedor, Departamentos = departamentos };
             _servicoVendedor.Inserir(vendedor);
@@ -109,6 +116,13 @@ namespace SalesWebMvc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Editar (int id, Vendedor vendedor) // id vem da requisição.
         {
+            if (!ModelState.IsValid)
+            {
+                var departamentos = _servicoDepartamento.BuscarTudo();
+                var viewModel = new VendedorFormViewModel { Vendedor = vendedor, Departamentos = departamentos };
+                return View(viewModel);
+            }
+
             if (id != vendedor.Id)
             {
                 return RedirectToAction(nameof(Erro), new { mensagem = "Id da URL não corresponde." }); ;
